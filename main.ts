@@ -1,8 +1,11 @@
-import { Client } from 'https://deno.land/x/mqtt@0.1.2/deno/mod.ts'; // Deno (ESM)
+import { Client } from 'https://deno.land/x/mqtt@0.1.2/deno/mod.ts';
 
-async function main() {
+async function main(serverurl:string, topicname:string = 'tellstick', tool:string = 'tdtool') {
+    
+    console.log(`Listening on ${serverurl}/${topicname}/#, using ${tool} for exec`)
+   
     const client = new Client({
-        url: 'mqtt://mqtt.taklamakan.se',
+        url: serverurl,
     })
 
     await client.connect()
@@ -14,10 +17,10 @@ async function main() {
         const jsondata = decoder.decode(payload)
 
         switch (topic) {
-            case 'tellstick':
+            case topicname:
                 const data = JSON.parse(jsondata)
-                console.log(`Running tdtool with cmd:${data.cmd}, on id:${data.id}`)
-                const p = Deno.run({ cmd: ["tdtool", data.cmd, data.id] })
+                console.log(`Running ${tool} with cmd:${data.cmd}, on id:${data.id}`)
+                const p = Deno.run({ cmd: [tool, data.cmd, data.id] })
                 await p.status()
                 break
             default:
@@ -28,4 +31,7 @@ async function main() {
     await client.subscribe('#')
 }
 
-main()
+// Expecting config.json with url to mqtt-server
+const config = JSON.parse(await Deno.readTextFile("./config.json"));
+
+main(config.mqttserver, config.topic, config.toolname)

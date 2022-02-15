@@ -20,8 +20,7 @@ RUN apt-get update && \
 RUN apt-get download telldus-core
 
 # Laddade ner de här manuellt
-COPY libconfuse-common_3.2+really3.0+dfsg-1_all.deb libconfuse-common_3.2+really3.0+dfsg-1_all.deb
-COPY libconfuse1_3.2+really3.0+dfsg-1_amd64.deb libconfuse1_3.2+really3.0+dfsg-1_amd64.deb
+COPY libconfuse/* .
 
 RUN dpkg -i libconfuse-common_3.2+really3.0+dfsg-1_all.deb && \
     dpkg -i libconfuse1_3.2+really3.0+dfsg-1_amd64.deb && \
@@ -43,7 +42,6 @@ WORKDIR /app
 ADD . .
 RUN deno cache main.ts
 
-COPY start.sh .
 RUN chmod +x start.sh
 
 ENTRYPOINT ["./start.sh"]
