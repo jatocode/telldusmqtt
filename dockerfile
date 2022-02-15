@@ -27,12 +27,12 @@ RUN dpkg -i libconfuse-common_3.2+really3.0+dfsg-1_all.deb && \
     dpkg -i libconfuse1_3.2+really3.0+dfsg-1_amd64.deb && \
     dpkg --ignore-depends=libconfuse0 -i telldus-core_2.1.2-1_amd64.deb
 
-RUN sed -i 's/\(Depends:.*\)libconfuse0[^,]*/\1libconfuse1 (>= 3.0)/' /var/lib/dpkg/status
-RUN ln -s /usr/lib/x86_64-linux-gnu/libconfuse.so.1 /usr/lib/x86_64-linux-gnu/libconfuse.so.0
+RUN sed -i 's/\(Depends:.*\)libconfuse0[^,]*/\1libconfuse1 (>= 3.0)/' /var/lib/dpkg/status && \
+    ln -s /usr/lib/x86_64-linux-gnu/libconfuse.so.1 /usr/lib/x86_64-linux-gnu/libconfuse.so.0
+ 
 
-RUN apt-get --fix-broken install -y
-
-RUN apt-mark hold libconfuse1 && apt-mark hold telldus-core
+RUN apt-get --fix-broken install -y && \
+    apt-mark hold libconfuse1 && apt-mark hold telldus-core
 COPY tellstick.conf /etc/tellstick.conf
 
 # The port that your application listens to.
@@ -40,11 +40,11 @@ EXPOSE 1993
 
 WORKDIR /app
 
-USER deno
-
-# These steps will be re-run upon each file change in your working directory:
 ADD . .
-# Compile the main app so that it doesn't need to be compiled each startup/entry.
 RUN deno cache main.ts
 
-CMD ["run", "--allow-net", "--allow-run", "main.ts"]
+COPY start.sh .
+RUN chmod +x start.sh
+
+ENTRYPOINT ["./start.sh"]
+
