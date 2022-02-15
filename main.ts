@@ -20,8 +20,12 @@ async function main(serverurl:string, topicname:string = 'tellstick', tool:strin
             case topicname:
                 const data = JSON.parse(jsondata)
                 console.log(`Running ${tool} with cmd:${data.cmd}, on id:${data.id}`)
-                const p = Deno.run({ cmd: [tool, data.cmd, data.id] })
-                await p.status()
+                const p = Deno.run({ cmd: [tool, data.cmd, data.id], stdout: 'piped', stderr: 'piped' })
+                const { code } = await p.status()
+                if(code == 0) {
+                    const rawOutput = await p.output()
+                    console.log('Result', decoder.decode(rawOutput))
+                }
                 break
             default:
                 break
