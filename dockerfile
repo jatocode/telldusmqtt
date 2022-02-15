@@ -20,7 +20,7 @@ RUN apt-get update && \
 RUN apt-get download telldus-core
 
 # Laddade ner de här manuellt
-COPY libconfuse/* .
+ADD libconfuse/* ./
 
 RUN dpkg -i libconfuse-common_3.2+really3.0+dfsg-1_all.deb && \
     dpkg -i libconfuse1_3.2+really3.0+dfsg-1_amd64.deb && \
