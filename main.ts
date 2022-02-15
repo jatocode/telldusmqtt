@@ -1,9 +1,9 @@
 import { Client } from 'https://deno.land/x/mqtt@0.1.2/deno/mod.ts';
 
-async function main(serverurl:string, topicname:string = 'tellstick', tool:string = 'tdtool') {
-    
+async function main(serverurl: string, topicname: string = 'tellstick', tool: string = 'tdtool') {
+
     console.log(`Listening on ${serverurl}/${topicname}/#, using ${tool} for exec`)
-   
+
     const client = new Client({
         url: serverurl,
     })
@@ -22,9 +22,25 @@ async function main(serverurl:string, topicname:string = 'tellstick', tool:strin
                 console.log(`Running ${tool} with cmd:${data.cmd}, on id:${data.id}`)
                 const p = Deno.run({ cmd: [tool, data.cmd, data.id], stdout: 'piped', stderr: 'piped' })
                 const { code } = await p.status()
-                if(code == 0) {
+                if (code == 0) {
                     const rawOutput = await p.output()
-                    console.log('Result', decoder.decode(rawOutput))
+                    const outout = decoder.decode(rawOutput);
+
+                    if (data.cmd == '--list') {
+                        let devices = [];
+                        for (const row of outout.split('\n')) {
+                            let m = row.match(/(\d+)(.*)(OFF|ON)/);
+                            if (m && m.length > 0) {
+                                let device = {
+                                    id: m[1],
+                                    name: m[2],
+                                    state: m[3]
+                                };
+                                devices.push(device);
+                            }
+                        }
+                        console.log(devices);
+                    }
                 }
                 break
             default:
