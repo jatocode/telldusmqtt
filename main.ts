@@ -1,6 +1,4 @@
 import { Client } from 'https://deno.land/x/mqtt/deno/mod.ts'; // Deno (ESM)
-// const { Client } = require('@jdiamond/mqtt'); // Node.js (CommonJS)
-// import { Client } from 'https://unpkg.com/@jdiamond/mqtt-browser'; // Browsers (ESM)
 
 async function main() {
     const client = new Client({
