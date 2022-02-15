@@ -29,12 +29,12 @@ async function main(serverurl: string, topicname: string = 'tellstick', tool: st
                     if (data.cmd == '--list') {
                         let devices = [];
                         for (const row of outout.split('\n')) {
-                            let m = row.match(/(\d+)(.*)(OFF|ON)/);
+                            let m = row.match(/(\d+)\t(.*)\t(OFF|ON)/);
                             if (m && m.length > 0) {
                                 let device = {
                                     id: m[1],
                                     name: m[2],
-                                    state: m[3]
+                                    state: m[3] == 'ON'
                                 };
                                 devices.push(device);
                             }
