@@ -17,7 +17,7 @@ async function main() {
             case 'tellstick':
                 const data = JSON.parse(jsondata)
                 console.log(data)
-                const p = Deno.run({ cmd: ["echo", data.cmd, data.id] })
+                const p = Deno.run({ cmd: ["tdtool", data.cmd, data.id] })
                 await p.status()
                 break
             default:
