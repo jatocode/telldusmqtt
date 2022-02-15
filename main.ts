@@ -16,7 +16,7 @@ async function main() {
         switch (topic) {
             case 'tellstick':
                 const data = JSON.parse(jsondata)
-                console.log(data)
+                console.log(`Running tdtool with cmd:${data.cmd}, on id:${data.id}`)
                 const p = Deno.run({ cmd: ["tdtool", data.cmd, data.id] })
                 await p.status()
                 break
