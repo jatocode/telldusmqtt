@@ -15,10 +15,16 @@ async function main(serverurl: string, topicname: string = 'tellstick', tool: st
     client.on('message', async (topic: string, payload: Uint8Array) => {
 
         const jsondata = decoder.decode(payload)
+        let data : any;
+        try {
+            data = JSON.parse(jsondata)
+        } catch (e) {
+            console.error('Failed to parse ', jsondata);
+            return;
+        }
 
         switch (topic) {
             case topicname:
-                const data = JSON.parse(jsondata)
                 console.log(`Running ${tool} with cmd:${data.cmd}, on id:${data.id}`)
                 const p = Deno.run({ cmd: [tool, data.cmd, data.id], stdout: 'piped', stderr: 'piped' })
                 const { code } = await p.status()
