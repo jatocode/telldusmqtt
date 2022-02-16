@@ -54,7 +54,7 @@ async function main(serverurl: string, topicname: string = 'tellstick', tool: st
         }
     });
 
-    await client.subscribe('#')
+    await client.subscribe(`${topicname}/#`)
 }
 
 // Expecting config.json with url to mqtt-server
