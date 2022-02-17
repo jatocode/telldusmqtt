@@ -44,9 +44,9 @@ EXPOSE 1993
 WORKDIR /app
 
 ADD src/. .
-ADD deno_dir/ deno_dir/.
 RUN deno cache main.ts
 
+ADD . .
 RUN chmod +x start.sh && \
     dos2unix start.sh
 
