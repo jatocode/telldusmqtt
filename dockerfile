@@ -1,5 +1,10 @@
 FROM denoland/deno:debian
 
+LABEL version="1.1"
+LABEL description="Containerised telldus daemon running an mqtt client as tdtool"
+LABEL maintainer="tobias.jansson@gmail.com"
+LABEL org.opencontainers.image.source https://github.com/jatocode/telldusmqtt
+
 RUN apt-get update && apt-get upgrade -y && apt-get install curl gnupg unzip dos2unix -y
 
 # Add public key for telldus
