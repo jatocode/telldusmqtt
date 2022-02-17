@@ -1,4 +1,4 @@
-import { Client } from 'https://deno.land/x/mqtt@0.1.2/deno/mod.ts';
+import { Client } from './deps.ts'
 import IDevice from './IDevice.ts'
 
 // Expecting config.json with url to mqtt-server
