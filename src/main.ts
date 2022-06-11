@@ -43,6 +43,10 @@ async function main(serverurl: string, topic_in: string = 'tellstick', topic_out
                         let devices = await handleListCommand(output);
                         await client.publish(topic_out, JSON.stringify(devices));
                     }
+                } else {
+                    const  error  = await p.stderrOutput()
+                    console.error('Error code', code)
+                    console.error(decoder.decode(error))
                 }
                 break
             default:

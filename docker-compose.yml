@@ -1,0 +1,9 @@
+version: "3"
+services:
+
+  telldusmqtt:
+    build: .
+    image: registry.taklamakan.se/telldusdocker:1.1
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"
+
