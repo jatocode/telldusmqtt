@@ -3,7 +3,7 @@ services:
 
   telldusmqtt:
     build: .
-    image: registry.taklamakan.se/telldusdocker:1.1
+    image: registry.taklamakan.se/telldusdocker:1.2
     devices:
       - "/dev/bus/usb:/dev/bus/usb"
     restart: unless-stopped

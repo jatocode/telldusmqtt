@@ -39,7 +39,7 @@ async function main(serverurl: string, topic_in: string = 'tellstick', topic_out
                 if (code == 0) {
                     const rawOutput = await p.output()
                     const output = decoder.decode(rawOutput);
-                    if (data.cmd == '--list') {
+                    if (data.cmd == 'list') {
                         let devices = await handleListCommand(output);
                         await client.publish(topic_out, JSON.stringify(devices));
                     }
