@@ -6,4 +6,6 @@ services:
     image: registry.taklamakan.se/telldusdocker:1.1
     devices:
       - "/dev/bus/usb:/dev/bus/usb"
+    restart: unless-stopped
+
 
