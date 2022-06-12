@@ -33,7 +33,7 @@ async function main(serverurl: string, topic_in: string = 'tellstick', topic_out
                 console.log(`Running ${tool} with cmd:${data.cmd}, on id:${data.id}`)
                 
                 // Run shellcommand
-                const p = Deno.run({ cmd: [tool, data.cmd, data.id], stdout: 'piped', stderr: 'piped' })
+                const p = Deno.run({ cmd: [tool, '--'+data.cmd, data.id], stdout: 'piped', stderr: 'piped' })
                 const { code } = await p.status()
 
                 if (code == 0) {
